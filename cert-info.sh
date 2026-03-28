@@ -17,8 +17,14 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+# Ensure URL has a scheme so domain extraction works
+url="$1"
+if [[ "$url" != http://* && "$url" != https://* ]]; then
+  url="https://$url"
+fi
+
 # Get the domain from the URL
-domain=$(echo "$1" | awk -F/ '{print $3}')
+domain=$(echo "$url" | awk -F/ '{print $3}')
 
 # Get the certificate information
 cert_info=$(echo | openssl s_client -servername "$domain" -connect "$domain":443 2>/dev/null | openssl x509 -noout -text)
