@@ -23,6 +23,12 @@ Examples:
 EOF
 }
 
+# Check if openssl is installed
+if ! command -v openssl &>/dev/null; then
+  echo "Error: openssl is required but not installed." >&2
+  exit 1
+fi
+
 # Check if gum is installed
 if command -v gum &>/dev/null; then
   USE_GUM=true
